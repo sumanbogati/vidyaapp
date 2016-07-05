@@ -43375,6 +43375,6 @@ angular.module('mm.core')
     "demo_sites": null,
     "gcmpn": "578987199728",
     "customurlscheme": "moodlemobile",
-    "siteurl": "http://lms.vidyamantra.com"
+    "siteurl": "http://163.47.143.45/moodle31"
 }
 );
