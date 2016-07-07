@@ -7258,6 +7258,9 @@ angular.module('mm.core.fileuploader', ['mm.core'])
     $stateProvider
     .state('site.fileuploader-picker', {
         url: '/fileuploader-picker',
+        params: {
+            maxsize: -1
+        },
         views: {
             'site': {
                 templateUrl: 'core/components/fileuploader/templates/picker.html',
@@ -10307,9 +10310,10 @@ angular.module('mm.core.courses')
 }]);
 
 angular.module('mm.core.fileuploader')
-.controller('mmFileUploaderPickerCtrl', ["$scope", "$mmUtil", "$mmFileUploaderHelper", "$ionicHistory", "$mmApp", "$mmFS", "$q", "$mmFileUploaderDelegate", function($scope, $mmUtil, $mmFileUploaderHelper, $ionicHistory, $mmApp, $mmFS, $q,
-            $mmFileUploaderDelegate) {
-    var uploadMethods = {
+.controller('mmFileUploaderPickerCtrl', ["$scope", "$mmUtil", "$mmFileUploaderHelper", "$ionicHistory", "$mmApp", "$mmFS", "$q", "$mmFileUploaderDelegate", "$stateParams", function($scope, $mmUtil, $mmFileUploaderHelper, $ionicHistory, $mmApp, $mmFS, $q,
+            $mmFileUploaderDelegate, $stateParams) {
+    var maxSize = $stateParams.maxsize,
+        uploadMethods = {
             album: $mmFileUploaderHelper.uploadImage,
             camera: $mmFileUploaderHelper.uploadImage,
             audio: $mmFileUploaderHelper.uploadAudioOrVideo,
@@ -10340,6 +10344,9 @@ angular.module('mm.core.fileuploader')
         });
     }
     function uploadFileObject(file) {
+        if (maxSize != -1 && file.size > maxSize) {
+            return $mmFileUploaderHelper.errorMaxBytes(maxSize, file.name);
+        }
         return $mmFileUploaderHelper.confirmUploadFile(file.size).then(function() {
             return $mmFileUploaderHelper.copyAndUploadFile(file).then(successUploading, errorUploading);
         }, errorUploading);
@@ -10355,9 +10362,12 @@ angular.module('mm.core.fileuploader')
             return $q.reject();
         }).then(function(f) {
             file = f;
+            if (maxSize != -1 && file.size > maxSize) {
+                return $mmFileUploaderHelper.errorMaxBytes(maxSize, file.name);
+            }
             return $mmFileUploaderHelper.confirmUploadFile(file.size);
         }).then(function() {
-            return $mmFileUploaderHelper.uploadGenericFile(fileEntry.toURL(), file.name, file.type, deleteAfterUpload);
+            return $mmFileUploaderHelper.uploadGenericFile(fileEntry.toURL(), file.name, file.type, deleteAfterUpload, false);
         }).then(successUploading)
         .catch(errorUploading);
     }
@@ -10366,7 +10376,7 @@ angular.module('mm.core.fileuploader')
             $mmUtil.showErrorModal('mm.fileuploader.errormustbeonlinetoupload', true);
         } else {
             if (typeof(uploadMethods[type]) !== 'undefined') {
-                uploadMethods[type](param).then(successUploading, errorUploading);
+                uploadMethods[type](param, maxSize).then(successUploading, errorUploading);
             }
         }
     };
@@ -10381,7 +10391,7 @@ angular.module('mm.core.fileuploader')
     $scope.handlerClicked = function(e, action) {
         e.preventDefault();
         e.stopPropagation();
-        action().then(function(data) {
+        action(maxSize).then(function(data) {
             if (data.uploaded) {
                 successUploading(data.result);
             } else {
@@ -10604,6 +10614,14 @@ angular.module('mm.core.fileuploader')
             return $mmLang.translateAndReject('mm.fileuploader.errorreadingfile');
         });
     };
+        self.errorMaxBytes = function(maxSize, fileName) {
+        var error = $translate.instant('mm.fileuploader.maxbytesfile', {$a: {
+            file: fileName,
+            size: $mmText.bytesToSize(maxSize, 2)
+        }});
+        $mmUtil.showErrorModal(error);
+        return $q.reject();
+    };
         self.filePickerClosed = function() {
         if (filePickerDeferred) {
             filePickerDeferred.reject();
@@ -10616,9 +10634,9 @@ angular.module('mm.core.fileuploader')
             filePickerDeferred = undefined;
         }
     };
-        self.selectAndUploadFile = function() {
+        self.selectAndUploadFile = function(maxSize) {
         filePickerDeferred = $q.defer();
-        $state.go('site.fileuploader-picker');
+        $state.go('site.fileuploader-picker', {maxsize: maxSize});
         return filePickerDeferred.promise;
     };
         self.showConfirmAndUploadInSite = function(fileEntry, deleteAfterUpload, siteId) {
@@ -10638,23 +10656,24 @@ angular.module('mm.core.fileuploader')
             return $q.reject();
         });
     };
-        self.uploadAudioOrVideo = function(isAudio) {
+        self.uploadAudioOrVideo = function(isAudio, maxSize) {
         $log.debug('Trying to record a video file');
         var fn = isAudio ? $cordovaCapture.captureAudio : $cordovaCapture.captureVideo;
         return fn({limit: 1}).then(function(medias) {
             var paths = medias.map(function(media) {
                 return media.fullPath;
             });
-            return uploadFiles(true, paths, $mmFileUploader.uploadMedia, medias);
+            return uploadFiles(true, paths, maxSize, true, $mmFileUploader.uploadMedia, medias);
         }, function(error) {
             var defaultError = isAudio ? 'mm.fileuploader.errorcapturingaudio' : 'mm.fileuploader.errorcapturingvideo';
             return treatCaptureError(error, defaultError);
         });
     };
         self.uploadGenericFile = function(uri, name, type, deleteAfterUpload, siteId) {
-        return uploadFiles(deleteAfterUpload, [uri], $mmFileUploader.uploadGenericFile, uri, name, type, deleteAfterUpload, siteId);
+        return uploadFiles(deleteAfterUpload, [uri], -1, false,
+                $mmFileUploader.uploadGenericFile, uri, name, type, deleteAfterUpload, siteId);
     };
-        self.uploadImage = function(fromAlbum) {
+        self.uploadImage = function(fromAlbum, maxSize) {
         $log.debug('Trying to capture an image with camera');
         var options = {
             quality: 50,
@@ -10666,7 +10685,7 @@ angular.module('mm.core.fileuploader')
                                             Camera.PopoverArrowDirection.ARROW_ANY);
         }
         return $cordovaCamera.getPicture(options).then(function(img) {
-            return uploadFiles(!fromAlbum, [img], $mmFileUploader.uploadImage, img, fromAlbum);
+            return uploadFiles(!fromAlbum, [img], maxSize, true, $mmFileUploader.uploadImage, img, fromAlbum);
         }, function(error) {
             var defaultError = fromAlbum ? 'mm.fileuploader.errorgettingimagealbum' : 'mm.fileuploader.errorcapturingimage';
             return treatImageError(error, defaultError);
@@ -10707,7 +10726,7 @@ angular.module('mm.core.fileuploader')
         }
         return $q.reject();
     }
-        function uploadFiles(deleteAfterUpload, paths, uploadFn) {
+        function uploadFiles(deleteAfterUpload, paths, maxSize, checkSize, uploadFn) {
         var errorStr = $translate.instant('mm.core.error'),
             retryStr = $translate.instant('mm.core.retry'),
             args = arguments,
@@ -10715,28 +10734,53 @@ angular.module('mm.core.fileuploader')
                                 "<p ng-if=\"!perc\">{{'mm.fileuploader.uploading' | translate}}</p>" +
                                 "<p ng-if=\"perc\">{{'mm.fileuploader.uploadingperc' | translate:{$a: perc} }}</p>",
             scope,
-            modal;
+            modal,
+            promises = [],
+            totalSize = 0,
+            fileTooLarge;
         if (!$mmApp.isOnline()) {
             return errorUploading($translate.instant('mm.fileuploader.errormustbeonlinetoupload'));
         }
-        scope = $rootScope.$new();
-        modal = $mmUtil.showModalLoadingWithTemplate(progressTemplate, {scope: scope});
-        return uploadFn.apply(undefined, Array.prototype.slice.call(args, 3)).then(undefined, undefined, function(progress) {
-            if (progress && progress.lengthComputable) {
-                var perc = parseFloat(Math.min((progress.loaded / progress.total) * 100, 100)).toFixed(1);
-                if (perc >= 0) {
-                    scope.perc = perc;
+        if (checkSize) {
+            angular.forEach(paths, function(path) {
+                promises.push($mmFS.getExternalFile(path).then(function(fileEntry) {
+                    return $mmFS.getFileObjectFromFileEntry(fileEntry).then(function(file) {
+                        totalSize += file.size;
+                        if (maxSize != -1 && file.size > maxSize) {
+                            fileTooLarge = file;
+                        }
+                    });
+                }).catch(function() {
+                }));
+            });
+        }
+        return $q.all(promises).then(function() {
+            if (fileTooLarge) {
+                return self.errorMaxBytes(maxSize, fileTooLarge.name);
+            }
+            if (totalSize > 0) {
+                return self.confirmUploadFile(totalSize);
+            }
+        }).then(function() {
+            scope = $rootScope.$new();
+            modal = $mmUtil.showModalLoadingWithTemplate(progressTemplate, {scope: scope});
+            return uploadFn.apply(undefined, Array.prototype.slice.call(args, 5)).then(undefined, undefined, function(progress) {
+                if (progress && progress.lengthComputable) {
+                    var perc = parseFloat(Math.min((progress.loaded / progress.total) * 100, 100)).toFixed(1);
+                    if (perc >= 0) {
+                        scope.perc = perc;
+                    }
                 }
-            }
-        }).catch(function(error) {
-            $log.error('Error uploading file: '+JSON.stringify(error));
-            modal.dismiss();
-            if (typeof error != 'string') {
-                error = $translate.instant('mm.fileuploader.errorwhileuploading');
-            }
-            return errorUploading(error);
-        }).finally(function() {
-            modal.dismiss();
+            }).catch(function(error) {
+                $log.error('Error uploading file: '+JSON.stringify(error));
+                modal.dismiss();
+                if (typeof error != 'string') {
+                    error = $translate.instant('mm.fileuploader.errorwhileuploading');
+                }
+                return errorUploading(error);
+            }).finally(function() {
+                modal.dismiss();
+            });
         });
         function errorUploading(error) {
             var options = {
@@ -12619,7 +12663,7 @@ angular.module('mm.core.sharedfiles')
                         return function($scope) {
                 $scope.title = 'mm.sharedfiles.sharedfiles';
                 $scope.class = 'mm-sharedfiles-filepicker-handler';
-                $scope.action = function() {
+                $scope.action = function(maxSize) {
                     return $mmSharedFilesHelper.pickSharedFile();
                 };
             };
@@ -14318,6 +14362,20 @@ angular.module('mm.addons.mod_assign', ['mm.core'])
             'site': {
                 controller: 'mmaModAssignIndexCtrl',
                 templateUrl: 'addons/mod/assign/templates/index.html'
+            }
+        }
+    })
+    .state('site.mod_assign-description', {
+        url: '/mod_assign-description',
+        params: {
+            assignid: null,
+            description: null,
+            files: null
+        },
+        views: {
+            'site': {
+                controller: 'mmaModAssignDescriptionCtrl',
+                templateUrl: 'addons/mod/assign/templates/description.html'
             }
         }
     })
@@ -16777,11 +16835,15 @@ angular.module('mm.addons.files')
 }]);
 
 angular.module('mm.addons.files')
-.factory('$mmaFilesHelper', ["$q", "$mmUtil", "$log", "$mmaFiles", "$mmFileUploaderHelper", function($q, $mmUtil, $log, $mmaFiles, $mmFileUploaderHelper) {
+.factory('$mmaFilesHelper', ["$q", "$mmUtil", "$log", "$mmaFiles", "$mmFileUploaderHelper", "$mmSite", function($q, $mmUtil, $log, $mmaFiles, $mmFileUploaderHelper, $mmSite) {
     $log = $log.getInstance('$mmaFilesHelper');
     var self = {};
         self.selectAndUploadFile = function() {
-        return $mmFileUploaderHelper.selectAndUploadFile().then(function(result) {
+        var maxSize = $mmSite.getInfo().usermaxuploadfilesize;
+        if (typeof maxSize == 'undefined') {
+            maxSize = -1;
+        }
+        return $mmFileUploaderHelper.selectAndUploadFile(maxSize).then(function(result) {
             if ($mmaFiles.canMoveFromDraftToPrivate()) {
                 if (!result) {
                     return $q.reject();
@@ -29467,8 +29529,16 @@ angular.module('mm.addons.remotestyles')
 }]);
 
 angular.module('mm.addons.mod_assign')
-.controller('mmaModAssignIndexCtrl', ["$scope", "$stateParams", "$mmaModAssign", "$mmUtil", "$translate", "mmaModAssignComponent", "$q", "$state", "$ionicPlatform", "mmaModAssignSubmissionInvalidated", "$mmText", function($scope, $stateParams, $mmaModAssign, $mmUtil, $translate, mmaModAssignComponent, $q,
-        $state, $ionicPlatform, mmaModAssignSubmissionInvalidated, $mmText) {
+.controller('mmaModAssignDescriptionCtrl', ["$scope", "$stateParams", "mmaModAssignComponent", function($scope, $stateParams, mmaModAssignComponent) {
+    $scope.description = $stateParams.description;
+    $scope.assignId = $stateParams.assignid;
+    $scope.assignComponent = mmaModAssignComponent;
+    $scope.files = $stateParams.files;
+}]);
+
+angular.module('mm.addons.mod_assign')
+.controller('mmaModAssignIndexCtrl', ["$scope", "$stateParams", "$mmaModAssign", "$mmUtil", "$translate", "mmaModAssignComponent", "$q", "$state", "$ionicPlatform", "mmaModAssignSubmissionInvalidated", function($scope, $stateParams, $mmaModAssign, $mmUtil, $translate, mmaModAssignComponent, $q,
+        $state, $ionicPlatform, mmaModAssignSubmissionInvalidated) {
     var module = $stateParams.module || {},
         courseId = $stateParams.courseid;
     $scope.title = module.name;
@@ -29569,7 +29639,13 @@ angular.module('mm.addons.mod_assign')
         $scope.refreshIcon = 'ion-refresh';
     });
     $scope.expandDescription = function() {
-        $mmText.expandText($translate.instant('mm.core.description'), $scope.description);
+        if ($scope.assign.id && ($scope.description || $scope.assign.introattachments)) {
+            $state.go('site.mod_assign-description', {
+                assignid: $scope.assign.id,
+                description: $scope.description,
+                files: $scope.assign.introattachments
+            });
+        }
     };
     $scope.refreshAssignment = function() {
         if ($scope.assignmentLoaded) {
@@ -43072,25 +43148,6 @@ angular.module('mm.addons.mod_assign')
 }]);
 
 angular.module('mm.addons.mod_quiz')
-.factory('$mmaQuizAccessDelayBetweenAttemptsHandler', function() {
-    var self = {};
-        self.isEnabled = function() {
-        return true;
-    };
-        self.isPreflightCheckRequired = function(quiz, attempt, prefetch, siteId) {
-        return false;
-    };
-    return self;
-})
-.run(["$mmAddonManager", function($mmAddonManager) {
-    var $mmaModQuizAccessRulesDelegate = $mmAddonManager.get('$mmaModQuizAccessRulesDelegate');
-    if ($mmaModQuizAccessRulesDelegate) {
-        $mmaModQuizAccessRulesDelegate.registerHandler('mmaQuizAccessDelayBetweenAttempts', 'quizaccess_delaybetweenattempts',
-                                '$mmaQuizAccessDelayBetweenAttemptsHandler');
-    }
-}]);
-
-angular.module('mm.addons.mod_quiz')
 .factory('$mmaQuizAccessIpAddressHandler', function() {
     var self = {};
         self.isEnabled = function() {
@@ -43106,6 +43163,25 @@ angular.module('mm.addons.mod_quiz')
     if ($mmaModQuizAccessRulesDelegate) {
         $mmaModQuizAccessRulesDelegate.registerHandler('mmaQuizAccessIpAddress', 'quizaccess_ipaddress',
                                 '$mmaQuizAccessIpAddressHandler');
+    }
+}]);
+
+angular.module('mm.addons.mod_quiz')
+.factory('$mmaQuizAccessDelayBetweenAttemptsHandler', function() {
+    var self = {};
+        self.isEnabled = function() {
+        return true;
+    };
+        self.isPreflightCheckRequired = function(quiz, attempt, prefetch, siteId) {
+        return false;
+    };
+    return self;
+})
+.run(["$mmAddonManager", function($mmAddonManager) {
+    var $mmaModQuizAccessRulesDelegate = $mmAddonManager.get('$mmaModQuizAccessRulesDelegate');
+    if ($mmaModQuizAccessRulesDelegate) {
+        $mmaModQuizAccessRulesDelegate.registerHandler('mmaQuizAccessDelayBetweenAttempts', 'quizaccess_delaybetweenattempts',
+                                '$mmaQuizAccessDelayBetweenAttemptsHandler');
     }
 }]);
 
@@ -43364,15 +43440,16 @@ angular.module('mm.addons.mod_quiz')
 angular.module('mm.core')
 
 .constant('mmCoreConfigConstants', {
-    "app_id" : "com.vidyamantra.cmoodleapp55",
-    "versioncode" : "2011",
-    "versionname" : "3.0.0",
+    "app_id" : "com.moodle.moodlemobile",
+    "versioncode" : "2012",
+    "versionname" : "3.1.0",
     "cache_expiration_time" : 300000,
     "default_lang" : "en",
     "languages": {"ar": "عربي", "bg": "Български", "ca": "Català", "cs": "Čeština", "da": "Dansk", "de": "Deutsch","en": "English", "es": "Español", "es-mx": "Español - México", "eu": "Euskara", "fa": "فارسی", "fr" : "Français", "he" : "עברית", "hu": "magyar", "it": "Italiano", "ja": "日本語","nl": "Nederlands", "pl": "Polski", "pt-br": "Português - Brasil", "pt": "Português - Portugal", "ro": "Română", "ru": "Русский", "sv": "Svenska", "tr" : "Türkçe", "zh-cn" : "简体中文", "zh-tw" : "正體中文"},
     "wsservice" : "moodle_mobile_app",
     "wsextservice" : "local_mobile",
-    "demo_sites": null,
-    "gcmpn": "694767596569"
+    "demo_sites": {"student": {"url": "http://school.demo.moodle.net", "username": "student", "password": "moodle"}, "teacher": {"url": "http://school.demo.moodle.net", "username": "teacher", "password": "moodle"}, "cva": {"url": "http://mm.cvaconsulting.com/moodle", "username": "student", "password": "student"}},
+    "gcmpn": "694767596569",
+    "customurlscheme": "moodlemobile"
 }
 );

@@ -9604,6 +9604,10 @@ mm-timer.mm-timer.mm-timer-timeleft-15 {
   /* show the checkmark icon when its checked */
   visibility: visible; }
 
+/** Hide PTR when slowly released */
+.scroll-refresher .ionic-refresher-content.ionic-refresher-with-text {
+  bottom: 20px; }
+
 .item.item-button-right .badge.mm-course-download, .item.item-button-right .mma-messages-date span.mm-course-download, .mma-messages-date .item.item-button-right span.mm-course-download, .item.item-button-right .mma-chat-notice span.mm-course-download, .mma-chat-notice .item.item-button-right span.mm-course-download {
   right: 44px; }
 

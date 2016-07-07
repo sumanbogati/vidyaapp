@@ -198,6 +198,7 @@
     "mm.fileuploader.errorwhileuploading": "An error occurred during the file upload.",
     "mm.fileuploader.file": "File",
     "mm.fileuploader.fileuploaded": "The file was successfully uploaded.",
+    "mm.fileuploader.maxbytesfile": "The file {{$a.file}} is too large. The maximum size you can upload is {{$a.size}}.",
     "mm.fileuploader.photoalbums": "Photo albums",
     "mm.fileuploader.readingfile": "Reading file",
     "mm.fileuploader.uploadafile": "Upload a file",
