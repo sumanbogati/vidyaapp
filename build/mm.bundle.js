@@ -43373,6 +43373,6 @@ angular.module('mm.core')
     "wsservice" : "moodle_mobile_app",
     "wsextservice" : "local_mobile",
     "demo_sites": null,
-    "gcmpn": "578987199728",
+    "gcmpn": "578987199728"
 }
 );
