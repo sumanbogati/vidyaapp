@@ -5,12 +5,7 @@
 			Vidyamantra lms description
 		</description>
 	  <author href="http://moodleapp.keytoschool.com" email="sales@vidyamantra.com">Vidya Mantra EduSystems Pvt. Ltd.</author>
-		  
-    
-	<gap:plugin name="phonegap-plugin-push" source="npm" version="1.2.3" >
-		<param name="SENDER_ID" value="578987199728" />
-	</gap:plugin>
-
+	
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
         <string>2.3</string>
     </gap:config-file>
