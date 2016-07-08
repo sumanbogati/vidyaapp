@@ -1,12 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="com.vidyamantra.cmoodleapp55" versionCode="2011" version="3.0.0">
-  <name>Vidyamantra</name>
-  <description>
-        Vidyamantra lms description
-    </description>
-  <author href="http://moodleapp.keytoschool.com" email="sales@vidyamantra.com">Vidya Mantra EduSystems Pvt. Ltd.</author>
-  
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns     = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        xmlns:android = "http://schemas.android.com/apk/res/android"
+        id        = "com.moodle.moodlemobile"
+        versionCode = "2004"
+        version   = "2.3">
+    <name>Moodle Mobile</name>
 
+    <description>
+        Moodle Mobile official app
+    </description>
+
+    <author href="http://moodle.com" email="mobile@moodle.com">
+        Moodle Pty Ltd
+    </author>
 
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
         <string>2.3</string>
