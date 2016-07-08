@@ -509,6 +509,10 @@ input.mm-fileuploader-picker {
   outline: none;
 }
 
+#mm-settings-languagelabel {
+  color: $base-color;
+}
+
 
 $mm-question-correct-color:         #468847 !default;
 $mm-question-incorrect-color:       #b94a48 !default;
@@ -612,10 +616,6 @@ li.mm-question-answer-incorrect,
 
 .mm-question-warning, p.mm-question-warning, .item .mm-question-warning {
   color: $mm-question-warning-color;
-}
-
-#mm-settings-languagelabel {
-  color: $base-color;
 }
 
 // Variables.
