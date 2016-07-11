@@ -179,13 +179,7 @@ angular.module('mm.addons.pushnotifications')
             uuid:       $cordovaDevice.getUUID()
         };
         
-        alert('appid' +  data.appid);
-        alert('name' + data.name);
-        alert('model' + data.model);
-        alert('platform' + data.platform);
-        alert('version' + data.version);
-        alert('pushid' + data.pushid);
-        alert('uuid' + data.uuid);
+        
         return $mmSite.write('core_user_add_user_device', data);
     };
 
