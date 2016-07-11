@@ -166,7 +166,6 @@ angular.module('mm.addons.pushnotifications')
 
         if (!$mmSite.isLoggedIn() || !pushID || !$mmApp.isDevice()) {
             return $q.reject();
-            alert('reject');
         }
 
         var data = {
@@ -178,8 +177,6 @@ angular.module('mm.addons.pushnotifications')
             pushid:     pushID,
             uuid:       $cordovaDevice.getUUID()
         };
-        
-        
         return $mmSite.write('core_user_add_user_device', data);
     };
 
