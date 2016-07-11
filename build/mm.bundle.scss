@@ -785,20 +785,6 @@ $mma-messages-date-badge: "stable" !default;
     line-height: initial;
   }
 }
-.mm-site_mod_assign {
-
-  div.latesubmission {
-    background-color: #efcfcf;
-  }
-
-  div.earlysubmission {
-    background-color: #cfefcf;
-  }
-
-  div.submissioneditable {
-    color: red;
-  }
-}
 $mma-chat-notice-badge: "stable" !default;
 
 // The notice displayed in the list.
@@ -833,26 +819,6 @@ $mma-chat-notice-badge: "stable" !default;
 
 .mma-chat-reconnect-button, .button.mma-chat-reconnect-button {
   margin: 0;
-}
-.mma-mod_choice-user {
-  position: relative;
-  display: inline-block;
-  img {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    left: 50%;
-    margin-left: -20px;
-  }
-  p {
-    display: inline-block;
-    padding-top: 50px;
-  }
-}
-
-.mma-mod_choice-graph-horizontal {
-  height: 50px;
 }
 
 .mma-forum-discussion-link {
@@ -997,84 +963,39 @@ ion-popover-view {
   padding-bottom: 10px;
 }
 
-.mma-mod_survey-darkbg {
-  background-color: $item-divider-bg;
+.mm-site_mod_assign {
+
+  div.latesubmission {
+    background-color: #efcfcf;
+  }
+
+  div.earlysubmission {
+    background-color: #cfefcf;
+  }
+
+  div.submissioneditable {
+    color: red;
+  }
 }
-
-.mma-mod_survey-padding-top {
-  padding-top: 20px;
-}
-
-textarea.mma-mod_survey-textarea {
-  height: 100px;
-  border:1px solid $item-default-border;
-}
-
-select.mma-mod_survey-select {
-  background-color: transparent;
-  padding-left: 0px;
-  padding-right: $item-padding * 2;
-  max-width: 100%;
-
-  .mma-mod_survey-defaultoption {
-    display: none;
+.mma-mod_choice-user {
+  position: relative;
+  display: inline-block;
+  img {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    left: 50%;
+    margin-left: -20px;
+  }
+  p {
+    display: inline-block;
+    padding-top: 50px;
   }
 }
 
-$mma-mod-wiki-toc-level-padding:    12px !default;
-$mma-mod-wiki-newentry-link-color:   red !default;
-$mma-mod-wiki-toc-title-color:   #666 !default;
-$mma-mod-wiki-toc-border-color:   #bbb !default;
-$mma-mod-wiki-toc-background-color:   #eee !default;
-$mma-mod-wiki-subwiki-selected-background-color:   #eee !default;
-
-.wiki-toc {
-  border: 1px solid $mma-mod-wiki-toc-border-color;
-  background: $mma-mod-wiki-toc-background-color;
-  margin: 16px;
-  padding: 8px;
-}
-
-.wiki-toc-title {
-  color: $mma-mod-wiki-toc-title-color;
-  font-size: 1.1em;
-  font-variant: small-caps;
-  text-align: center;
-}
-
-.wiki-toc-section {
-  padding: 0;
-  margin: 2px 8px;
-}
-
-.wiki-toc-section-2 {
-  padding-left: $mma-mod-wiki-toc-level-padding;
-}
-
-.wiki-toc-section-3 {
-  padding-left: $mma-mod-wiki-toc-level-padding * 2;
-}
-
-.mm-site_mod_wiki .wiki_newentry {
-  color: $mma-mod-wiki-newentry-link-color;
-  font-style: italic;
-}
-
-/* Hide edit section links */
-a.wiki_edit_section {
-  display: none;
-}
-
-.mma-mod_wiki-subwiki-picker .item-divider {
-  font-weight: bold;
-}
-
-.mma-mod_wiki-subwiki-picker .item.item-selected {
-  background-color: $mma-mod-wiki-subwiki-selected-background-color;
-}
-
-.mma-mod_wiki-subwiki-picker .item.item-selected .icon {
-  font-size: 24px;
+.mma-mod_choice-graph-horizontal {
+  height: 50px;
 }
 
 $mma-qbehaviour-deferredcbm-judgementok-color:  #080 !default;
@@ -1482,3 +1403,83 @@ $mma-qbehaviour-deferredcbm-confident-color:    #c00 !default;
   }
 }
 
+
+.mma-mod_survey-darkbg {
+  background-color: $item-divider-bg;
+}
+
+.mma-mod_survey-padding-top {
+  padding-top: 20px;
+}
+
+textarea.mma-mod_survey-textarea {
+  height: 100px;
+  border:1px solid $item-default-border;
+}
+
+select.mma-mod_survey-select {
+  background-color: transparent;
+  padding-left: 0px;
+  padding-right: $item-padding * 2;
+  max-width: 100%;
+
+  .mma-mod_survey-defaultoption {
+    display: none;
+  }
+}
+
+$mma-mod-wiki-toc-level-padding:    12px !default;
+$mma-mod-wiki-newentry-link-color:   red !default;
+$mma-mod-wiki-toc-title-color:   #666 !default;
+$mma-mod-wiki-toc-border-color:   #bbb !default;
+$mma-mod-wiki-toc-background-color:   #eee !default;
+$mma-mod-wiki-subwiki-selected-background-color:   #eee !default;
+
+.wiki-toc {
+  border: 1px solid $mma-mod-wiki-toc-border-color;
+  background: $mma-mod-wiki-toc-background-color;
+  margin: 16px;
+  padding: 8px;
+}
+
+.wiki-toc-title {
+  color: $mma-mod-wiki-toc-title-color;
+  font-size: 1.1em;
+  font-variant: small-caps;
+  text-align: center;
+}
+
+.wiki-toc-section {
+  padding: 0;
+  margin: 2px 8px;
+}
+
+.wiki-toc-section-2 {
+  padding-left: $mma-mod-wiki-toc-level-padding;
+}
+
+.wiki-toc-section-3 {
+  padding-left: $mma-mod-wiki-toc-level-padding * 2;
+}
+
+.mm-site_mod_wiki .wiki_newentry {
+  color: $mma-mod-wiki-newentry-link-color;
+  font-style: italic;
+}
+
+/* Hide edit section links */
+a.wiki_edit_section {
+  display: none;
+}
+
+.mma-mod_wiki-subwiki-picker .item-divider {
+  font-weight: bold;
+}
+
+.mma-mod_wiki-subwiki-picker .item.item-selected {
+  background-color: $mma-mod-wiki-subwiki-selected-background-color;
+}
+
+.mma-mod_wiki-subwiki-picker .item.item-selected .icon {
+  font-size: 24px;
+}

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-angular.module('mm', ['ionic', 'mm.core', 'mm.core.comments', 'mm.core.contentlinks', 'mm.core.course', 'mm.core.courses', 'mm.core.fileuploader', 'mm.core.login', 'mm.core.question', 'mm.core.settings', 'mm.core.sharedfiles', 'mm.core.sidemenu', 'mm.core.textviewer', 'mm.core.user', 'mm.addons.calendar', 'mm.addons.competency', 'mm.addons.coursecompletion', 'mm.addons.files', 'mm.addons.frontpage', 'mm.addons.grades', 'mm.addons.messages', 'mm.addons.notes', 'mm.addons.notifications', 'mm.addons.participants', 'mm.addons.pushnotifications', 'mm.addons.remotestyles', 'mm.addons.mod_assign', 'mm.addons.mod_book', 'mm.addons.mod_chat', 'mm.addons.mod_choice', 'mm.addons.mod_folder', 'mm.addons.mod_forum', 'mm.addons.mod_glossary', 'mm.addons.mod_imscp', 'mm.addons.mod_label', 'mm.addons.mod_lti', 'mm.addons.mod_page', 'mm.addons.mod_quiz', 'mm.addons.mod_resource', 'mm.addons.mod_scorm', 'mm.addons.mod_survey', 'mm.addons.mod_url', 'mm.addons.mod_wiki', 'mm.addons.qbehaviour_adaptive', 'mm.addons.qbehaviour_adaptivenopenalty', 'mm.addons.qbehaviour_deferredcbm', 'mm.addons.qbehaviour_deferredfeedback', 'mm.addons.qbehaviour_immediatecbm', 'mm.addons.qbehaviour_immediatefeedback', 'mm.addons.qbehaviour_informationitem', 'mm.addons.qbehaviour_interactive', 'mm.addons.qbehaviour_interactivecountback', 'mm.addons.qbehaviour_manualgraded', 'mm.addons.qtype_calculated', 'mm.addons.qtype_calculatedmulti', 'mm.addons.qtype_calculatedsimple', 'mm.addons.qtype_ddimageortext', 'mm.addons.qtype_ddmarker', 'mm.addons.qtype_ddwtos', 'mm.addons.qtype_description', 'mm.addons.qtype_essay', 'mm.addons.qtype_gapselect', 'mm.addons.qtype_match', 'mm.addons.qtype_multianswer', 'mm.addons.qtype_multichoice', 'mm.addons.qtype_numerical', 'mm.addons.qtype_randomsamatch', 'mm.addons.qtype_shortanswer', 'mm.addons.qtype_truefalse', 'ngCordova', 'angular-md5', 'pascalprecht.translate', 'ngAria', 'oc.lazyLoad', 'ngIOS9UIWebViewPatch'])
+angular.module('mm', ['ionic', 'mm.core', 'mm.core.comments', 'mm.core.contentlinks', 'mm.core.course', 'mm.core.courses', 'mm.core.fileuploader', 'mm.core.login', 'mm.core.question', 'mm.core.settings', 'mm.core.sharedfiles', 'mm.core.sidemenu', 'mm.core.textviewer', 'mm.core.user', 'mm.addons.calendar', 'mm.addons.competency', 'mm.addons.coursecompletion', 'mm.addons.files', 'mm.addons.frontpage', 'mm.addons.grades', 'mm.addons.messages', 'mm.addons.pushnotifications', 'mm.addons.participants', 'mm.addons.remotestyles', 'mm.addons.notifications', 'mm.addons.notes', 'mm.addons.mod_assign', 'mm.addons.mod_book', 'mm.addons.mod_chat', 'mm.addons.mod_choice', 'mm.addons.mod_folder', 'mm.addons.mod_forum', 'mm.addons.mod_glossary', 'mm.addons.mod_imscp', 'mm.addons.mod_label', 'mm.addons.mod_lti', 'mm.addons.mod_page', 'mm.addons.mod_quiz', 'mm.addons.mod_survey', 'mm.addons.mod_resource', 'mm.addons.mod_url', 'mm.addons.mod_scorm', 'mm.addons.mod_wiki', 'mm.addons.qbehaviour_adaptive', 'mm.addons.qbehaviour_adaptivenopenalty', 'mm.addons.qbehaviour_deferredcbm', 'mm.addons.qbehaviour_deferredfeedback', 'mm.addons.qbehaviour_immediatefeedback', 'mm.addons.qbehaviour_immediatecbm', 'mm.addons.qbehaviour_interactive', 'mm.addons.qbehaviour_informationitem', 'mm.addons.qbehaviour_interactivecountback', 'mm.addons.qbehaviour_manualgraded', 'mm.addons.qtype_calculated', 'mm.addons.qtype_calculatedmulti', 'mm.addons.qtype_calculatedsimple', 'mm.addons.qtype_ddimageortext', 'mm.addons.qtype_ddmarker', 'mm.addons.qtype_ddwtos', 'mm.addons.qtype_description', 'mm.addons.qtype_essay', 'mm.addons.qtype_gapselect', 'mm.addons.qtype_match', 'mm.addons.qtype_multianswer', 'mm.addons.qtype_multichoice', 'mm.addons.qtype_numerical', 'mm.addons.qtype_randomsamatch', 'mm.addons.qtype_shortanswer', 'mm.addons.qtype_truefalse', 'ngCordova', 'angular-md5', 'pascalprecht.translate', 'ngAria', 'oc.lazyLoad', 'ngIOS9UIWebViewPatch'])
 .run(["$ionicPlatform", function($ionicPlatform) {
 	$ionicPlatform.ready(function() {
 		if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -7622,49 +7622,6 @@ angular.module('mm.core.user', [])
 }]);
 
 angular.module('mm.core.comments')
-.controller('mmCommentViewerCtrl', ["$stateParams", "$scope", "$translate", "$mmComments", "$mmUtil", "$mmUser", "$q", function($stateParams, $scope, $translate, $mmComments, $mmUtil, $mmUser, $q) {
-    var contextLevel = $stateParams.contextLevel,
-        instanceId = $stateParams.instanceId,
-        component = $stateParams.component,
-        itemId = $stateParams.itemId,
-        area = $stateParams.area,
-        page = $stateParams.page || 0;
-    $scope.title = $stateParams.title || $translate.instant('mm.core.comments');
-    function fetchComments() {
-        return $mmComments.getComments(contextLevel, instanceId, component, itemId, area, page).then(function(comments) {
-            $scope.comments = comments;
-            angular.forEach(comments, function(comment) {
-                $mmUser.getProfile(comment.userid, undefined, true).then(function(user) {
-                    comment.profileimageurl = user.profileimageurl || true;
-                });
-            });
-        }).catch(function(error) {
-            if (error) {
-                if (component == 'assignsubmission_comments') {
-                    $mmUtil.showModal('mm.core.notice', 'mm.core.commentsnotworking');
-                } else {
-                    $mmUtil.showErrorModal(error);
-                }
-            } else {
-                $translate('mm.core.error').then(function(error) {
-                    $mmUtil.showErrorModal(error + ': get_comments');
-                });
-            }
-            return $q.reject();
-        });
-    }
-    fetchComments().finally(function() {
-        $scope.commentsLoaded = true;
-    });
-    $scope.refreshComments = function() {
-        return $mmComments.invalidateCommentsData(contextLevel, instanceId, component, itemId, area, page).finally(function() {
-            return fetchComments().finally(function() {
-                $scope.$broadcast('scroll.refreshComplete');
-            });
-        });
-    };
-}]);
-angular.module('mm.core.comments')
 .directive('mmComments', ["$mmComments", "$state", function($mmComments, $state) {
     return {
         restrict: 'E',
@@ -7708,6 +7665,49 @@ angular.module('mm.core.comments')
     };
 }]);
 
+angular.module('mm.core.comments')
+.controller('mmCommentViewerCtrl', ["$stateParams", "$scope", "$translate", "$mmComments", "$mmUtil", "$mmUser", "$q", function($stateParams, $scope, $translate, $mmComments, $mmUtil, $mmUser, $q) {
+    var contextLevel = $stateParams.contextLevel,
+        instanceId = $stateParams.instanceId,
+        component = $stateParams.component,
+        itemId = $stateParams.itemId,
+        area = $stateParams.area,
+        page = $stateParams.page || 0;
+    $scope.title = $stateParams.title || $translate.instant('mm.core.comments');
+    function fetchComments() {
+        return $mmComments.getComments(contextLevel, instanceId, component, itemId, area, page).then(function(comments) {
+            $scope.comments = comments;
+            angular.forEach(comments, function(comment) {
+                $mmUser.getProfile(comment.userid, undefined, true).then(function(user) {
+                    comment.profileimageurl = user.profileimageurl || true;
+                });
+            });
+        }).catch(function(error) {
+            if (error) {
+                if (component == 'assignsubmission_comments') {
+                    $mmUtil.showModal('mm.core.notice', 'mm.core.commentsnotworking');
+                } else {
+                    $mmUtil.showErrorModal(error);
+                }
+            } else {
+                $translate('mm.core.error').then(function(error) {
+                    $mmUtil.showErrorModal(error + ': get_comments');
+                });
+            }
+            return $q.reject();
+        });
+    }
+    fetchComments().finally(function() {
+        $scope.commentsLoaded = true;
+    });
+    $scope.refreshComments = function() {
+        return $mmComments.invalidateCommentsData(contextLevel, instanceId, component, itemId, area, page).finally(function() {
+            return fetchComments().finally(function() {
+                $scope.$broadcast('scroll.refreshComplete');
+            });
+        });
+    };
+}]);
 angular.module('mm.core.comments')
 .factory('$mmComments', ["$log", "$mmSitesManager", "$mmSite", "$q", function($log, $mmSitesManager, $mmSite, $q) {
     $log = $log.getInstance('$mmComments');
@@ -13686,38 +13686,69 @@ angular.module('mm.addons.messages', ['mm.core'])
     }
 }]);
 
-angular.module('mm.addons.notes', [])
-.constant('mmaNotesPriority', 200)
-.constant('mmaNotesAddNotePriority', 200)
-.config(["$stateProvider", "$mmUserDelegateProvider", "$mmCoursesDelegateProvider", "mmaNotesPriority", "mmaNotesAddNotePriority", function($stateProvider, $mmUserDelegateProvider, $mmCoursesDelegateProvider, mmaNotesPriority, mmaNotesAddNotePriority) {
+angular.module('mm.addons.pushnotifications', [])
+.constant('mmaPushNotificationsComponent', 'mmaPushNotifications')
+.run(["$mmaPushNotifications", "$ionicPlatform", "$rootScope", "$mmEvents", "$mmLocalNotifications", "mmCoreEventLogin", "mmaPushNotificationsComponent", "mmCoreEventSiteDeleted", function($mmaPushNotifications, $ionicPlatform, $rootScope, $mmEvents, $mmLocalNotifications, mmCoreEventLogin,
+            mmaPushNotificationsComponent, mmCoreEventSiteDeleted) {
+    $ionicPlatform.ready(function() {
+        $mmaPushNotifications.registerDevice();
+    });
+    $rootScope.$on('$cordovaPushV5:notificationReceived', function(e, notification) {
+        $mmaPushNotifications.onMessageReceived(notification);
+    });
+    $mmEvents.on(mmCoreEventLogin, function() {
+        $mmaPushNotifications.registerDeviceOnMoodle();
+    });
+    $mmEvents.on(mmCoreEventSiteDeleted, function(site) {
+        $mmaPushNotifications.unregisterDeviceOnMoodle(site);
+    });
+    $mmLocalNotifications.registerClick(mmaPushNotificationsComponent, $mmaPushNotifications.notificationClicked);
+}]);
+
+angular.module('mm.addons.participants', [])
+.constant('mmaParticipantsListLimit', 50)
+.constant('mmaParticipantsPriority', 600)
+.config(["$stateProvider", "$mmCoursesDelegateProvider", "$mmContentLinksDelegateProvider", "mmaParticipantsPriority", function($stateProvider, $mmCoursesDelegateProvider, $mmContentLinksDelegateProvider, mmaParticipantsPriority) {
     $stateProvider
-    .state('site.notes-types', {
-        url: '/notes-types',
-        views: {
-            'site': {
-                templateUrl: 'addons/notes/templates/types.html',
-                controller: 'mmaNotesTypesCtrl'
+        .state('site.participants', {
+            url: '/participants',
+            views: {
+                'site': {
+                    controller: 'mmaParticipantsListCtrl',
+                    templateUrl: 'addons/participants/templates/list.html'
+                }
+            },
+            params: {
+                course: null
             }
-        },
-        params: {
-            course: null
-        }
-    })
-    .state('site.notes-list', {
-        url: '/notes-list',
-        views: {
-            'site': {
-                templateUrl: 'addons/notes/templates/list.html',
-                controller: 'mmaNotesListCtrl'
-            }
-        },
-        params: {
-            courseid: null,
-            type: null
+        });
+    $mmCoursesDelegateProvider.registerNavHandler('mmaParticipants', '$mmaParticipantsHandlers.coursesNavHandler',
+                mmaParticipantsPriority);
+    $mmContentLinksDelegateProvider.registerLinkHandler('mmaParticipants', '$mmaParticipantsHandlers.linksHandler');
+}]);
+
+angular.module('mm.addons.remotestyles', [])
+.constant('mmaRemoteStylesComponent', 'mmaRemoteStyles')
+.config(["$mmInitDelegateProvider", "mmInitDelegateMaxAddonPriority", function($mmInitDelegateProvider, mmInitDelegateMaxAddonPriority) {
+    $mmInitDelegateProvider.registerProcess('mmaRemoteStylesCurrent',
+                '$mmaRemoteStyles._preloadCurrentSite', mmInitDelegateMaxAddonPriority + 250, true);
+    $mmInitDelegateProvider.registerProcess('mmaRemoteStylesPreload', '$mmaRemoteStyles._preloadSites');
+}])
+.run(["$mmEvents", "mmCoreEventLogin", "mmCoreEventLogout", "mmCoreEventSiteAdded", "mmCoreEventSiteUpdated", "$mmaRemoteStyles", "$mmSite", "mmCoreEventSiteDeleted", function($mmEvents, mmCoreEventLogin, mmCoreEventLogout, mmCoreEventSiteAdded, mmCoreEventSiteUpdated, $mmaRemoteStyles,
+            $mmSite, mmCoreEventSiteDeleted) {
+    $mmEvents.on(mmCoreEventSiteAdded, function(siteId) {
+        $mmaRemoteStyles.addSite(siteId);
+    });
+    $mmEvents.on(mmCoreEventSiteUpdated, function(siteId) {
+        if (siteId === $mmSite.getId()) {
+            $mmaRemoteStyles.load(siteId);
         }
     });
-    $mmUserDelegateProvider.registerProfileHandler('mmaNotes:addNote', '$mmaNotesHandlers.addNote', mmaNotesAddNotePriority);
-    $mmCoursesDelegateProvider.registerNavHandler('mmaNotes', '$mmaNotesHandlers.coursesNav', mmaNotesPriority);
+    $mmEvents.on(mmCoreEventLogin, $mmaRemoteStyles.enable);
+    $mmEvents.on(mmCoreEventLogout, $mmaRemoteStyles.clear);
+    $mmEvents.on(mmCoreEventSiteDeleted, function(site) {
+        $mmaRemoteStyles.removeSite(site.id);
+    });
 }]);
 
 angular.module('mm.addons.notifications', [])
@@ -13753,69 +13784,38 @@ angular.module('mm.addons.notifications', [])
     }
 }]);
 
-angular.module('mm.addons.participants', [])
-.constant('mmaParticipantsListLimit', 50)
-.constant('mmaParticipantsPriority', 600)
-.config(["$stateProvider", "$mmCoursesDelegateProvider", "$mmContentLinksDelegateProvider", "mmaParticipantsPriority", function($stateProvider, $mmCoursesDelegateProvider, $mmContentLinksDelegateProvider, mmaParticipantsPriority) {
+angular.module('mm.addons.notes', [])
+.constant('mmaNotesPriority', 200)
+.constant('mmaNotesAddNotePriority', 200)
+.config(["$stateProvider", "$mmUserDelegateProvider", "$mmCoursesDelegateProvider", "mmaNotesPriority", "mmaNotesAddNotePriority", function($stateProvider, $mmUserDelegateProvider, $mmCoursesDelegateProvider, mmaNotesPriority, mmaNotesAddNotePriority) {
     $stateProvider
-        .state('site.participants', {
-            url: '/participants',
-            views: {
-                'site': {
-                    controller: 'mmaParticipantsListCtrl',
-                    templateUrl: 'addons/participants/templates/list.html'
-                }
-            },
-            params: {
-                course: null
+    .state('site.notes-types', {
+        url: '/notes-types',
+        views: {
+            'site': {
+                templateUrl: 'addons/notes/templates/types.html',
+                controller: 'mmaNotesTypesCtrl'
             }
-        });
-    $mmCoursesDelegateProvider.registerNavHandler('mmaParticipants', '$mmaParticipantsHandlers.coursesNavHandler',
-                mmaParticipantsPriority);
-    $mmContentLinksDelegateProvider.registerLinkHandler('mmaParticipants', '$mmaParticipantsHandlers.linksHandler');
-}]);
-
-angular.module('mm.addons.pushnotifications', [])
-.constant('mmaPushNotificationsComponent', 'mmaPushNotifications')
-.run(["$mmaPushNotifications", "$ionicPlatform", "$rootScope", "$mmEvents", "$mmLocalNotifications", "mmCoreEventLogin", "mmaPushNotificationsComponent", "mmCoreEventSiteDeleted", function($mmaPushNotifications, $ionicPlatform, $rootScope, $mmEvents, $mmLocalNotifications, mmCoreEventLogin,
-            mmaPushNotificationsComponent, mmCoreEventSiteDeleted) {
-    $ionicPlatform.ready(function() {
-        $mmaPushNotifications.registerDevice();
-    });
-    $rootScope.$on('$cordovaPushV5:notificationReceived', function(e, notification) {
-        $mmaPushNotifications.onMessageReceived(notification);
-    });
-    $mmEvents.on(mmCoreEventLogin, function() {
-        $mmaPushNotifications.registerDeviceOnMoodle();
-    });
-    $mmEvents.on(mmCoreEventSiteDeleted, function(site) {
-        $mmaPushNotifications.unregisterDeviceOnMoodle(site);
-    });
-    $mmLocalNotifications.registerClick(mmaPushNotificationsComponent, $mmaPushNotifications.notificationClicked);
-}]);
-
-angular.module('mm.addons.remotestyles', [])
-.constant('mmaRemoteStylesComponent', 'mmaRemoteStyles')
-.config(["$mmInitDelegateProvider", "mmInitDelegateMaxAddonPriority", function($mmInitDelegateProvider, mmInitDelegateMaxAddonPriority) {
-    $mmInitDelegateProvider.registerProcess('mmaRemoteStylesCurrent',
-                '$mmaRemoteStyles._preloadCurrentSite', mmInitDelegateMaxAddonPriority + 250, true);
-    $mmInitDelegateProvider.registerProcess('mmaRemoteStylesPreload', '$mmaRemoteStyles._preloadSites');
-}])
-.run(["$mmEvents", "mmCoreEventLogin", "mmCoreEventLogout", "mmCoreEventSiteAdded", "mmCoreEventSiteUpdated", "$mmaRemoteStyles", "$mmSite", "mmCoreEventSiteDeleted", function($mmEvents, mmCoreEventLogin, mmCoreEventLogout, mmCoreEventSiteAdded, mmCoreEventSiteUpdated, $mmaRemoteStyles,
-            $mmSite, mmCoreEventSiteDeleted) {
-    $mmEvents.on(mmCoreEventSiteAdded, function(siteId) {
-        $mmaRemoteStyles.addSite(siteId);
-    });
-    $mmEvents.on(mmCoreEventSiteUpdated, function(siteId) {
-        if (siteId === $mmSite.getId()) {
-            $mmaRemoteStyles.load(siteId);
+        },
+        params: {
+            course: null
+        }
+    })
+    .state('site.notes-list', {
+        url: '/notes-list',
+        views: {
+            'site': {
+                templateUrl: 'addons/notes/templates/list.html',
+                controller: 'mmaNotesListCtrl'
+            }
+        },
+        params: {
+            courseid: null,
+            type: null
         }
     });
-    $mmEvents.on(mmCoreEventLogin, $mmaRemoteStyles.enable);
-    $mmEvents.on(mmCoreEventLogout, $mmaRemoteStyles.clear);
-    $mmEvents.on(mmCoreEventSiteDeleted, function(site) {
-        $mmaRemoteStyles.removeSite(site.id);
-    });
+    $mmUserDelegateProvider.registerProfileHandler('mmaNotes:addNote', '$mmaNotesHandlers.addNote', mmaNotesAddNotePriority);
+    $mmCoursesDelegateProvider.registerNavHandler('mmaNotes', '$mmaNotesHandlers.coursesNav', mmaNotesPriority);
 }]);
 
 angular.module('mm.addons.mod_assign', ['mm.core'])
@@ -14305,6 +14305,28 @@ angular.module('mm.addons.mod_quiz', ['mm.core'])
     });
 }]);
 
+angular.module('mm.addons.mod_survey', [])
+.config(["$stateProvider", function($stateProvider) {
+    $stateProvider
+    .state('site.mod_survey', {
+        url: '/mod_survey',
+        params: {
+            module: null,
+            courseid: null
+        },
+        views: {
+            'site': {
+                controller: 'mmaModSurveyIndexCtrl',
+                templateUrl: 'addons/mod/survey/templates/index.html'
+            }
+        }
+    });
+}])
+.config(["$mmCourseDelegateProvider", "$mmContentLinksDelegateProvider", function($mmCourseDelegateProvider, $mmContentLinksDelegateProvider) {
+    $mmCourseDelegateProvider.registerContentHandler('mmaModSurvey', 'survey', '$mmaModSurveyHandlers.courseContent');
+    $mmContentLinksDelegateProvider.registerLinkHandler('mmaModSurvey', '$mmaModSurveyHandlers.linksHandler');
+}]);
+
 angular.module('mm.addons.mod_resource', ['mm.core'])
 .constant('mmaModResourceComponent', 'mmaModResource')
 .config(["$stateProvider", function($stateProvider) {
@@ -14327,6 +14349,28 @@ angular.module('mm.addons.mod_resource', ['mm.core'])
     $mmCourseDelegateProvider.registerContentHandler('mmaModResource', 'resource', '$mmaModResourceHandlers.courseContent');
     $mmCoursePrefetchDelegateProvider.registerPrefetchHandler('mmaModResource', 'resource', '$mmaModResourcePrefetchHandler');
     $mmContentLinksDelegateProvider.registerLinkHandler('mmaModResource', '$mmaModResourceHandlers.linksHandler');
+}]);
+
+angular.module('mm.addons.mod_url', ['mm.core'])
+.config(["$stateProvider", function($stateProvider) {
+    $stateProvider
+    .state('site.mod_url', {
+      url: '/mod_url',
+      params: {
+        module: null,
+        courseid: null
+      },
+      views: {
+        'site': {
+          controller: 'mmaModUrlIndexCtrl',
+          templateUrl: 'addons/mod/url/templates/index.html'
+        }
+      }
+    });
+}])
+.config(["$mmCourseDelegateProvider", "$mmContentLinksDelegateProvider", function($mmCourseDelegateProvider, $mmContentLinksDelegateProvider) {
+    $mmCourseDelegateProvider.registerContentHandler('mmaModUrl', 'url', '$mmaModUrlHandlers.courseContentHandler');
+    $mmContentLinksDelegateProvider.registerLinkHandler('mmaModUrl', '$mmaModUrlHandlers.linksHandler');
 }]);
 
 angular.module('mm.addons.mod_scorm', ['mm.core'])
@@ -14419,50 +14463,6 @@ angular.module('mm.addons.mod_scorm', ['mm.core'])
     });
 }]);
 
-angular.module('mm.addons.mod_survey', [])
-.config(["$stateProvider", function($stateProvider) {
-    $stateProvider
-    .state('site.mod_survey', {
-        url: '/mod_survey',
-        params: {
-            module: null,
-            courseid: null
-        },
-        views: {
-            'site': {
-                controller: 'mmaModSurveyIndexCtrl',
-                templateUrl: 'addons/mod/survey/templates/index.html'
-            }
-        }
-    });
-}])
-.config(["$mmCourseDelegateProvider", "$mmContentLinksDelegateProvider", function($mmCourseDelegateProvider, $mmContentLinksDelegateProvider) {
-    $mmCourseDelegateProvider.registerContentHandler('mmaModSurvey', 'survey', '$mmaModSurveyHandlers.courseContent');
-    $mmContentLinksDelegateProvider.registerLinkHandler('mmaModSurvey', '$mmaModSurveyHandlers.linksHandler');
-}]);
-
-angular.module('mm.addons.mod_url', ['mm.core'])
-.config(["$stateProvider", function($stateProvider) {
-    $stateProvider
-    .state('site.mod_url', {
-      url: '/mod_url',
-      params: {
-        module: null,
-        courseid: null
-      },
-      views: {
-        'site': {
-          controller: 'mmaModUrlIndexCtrl',
-          templateUrl: 'addons/mod/url/templates/index.html'
-        }
-      }
-    });
-}])
-.config(["$mmCourseDelegateProvider", "$mmContentLinksDelegateProvider", function($mmCourseDelegateProvider, $mmContentLinksDelegateProvider) {
-    $mmCourseDelegateProvider.registerContentHandler('mmaModUrl', 'url', '$mmaModUrlHandlers.courseContentHandler');
-    $mmContentLinksDelegateProvider.registerLinkHandler('mmaModUrl', '$mmaModUrlHandlers.linksHandler');
-}]);
-
 angular.module('mm.addons.mod_wiki', [])
 .constant('mmaModWikiSubwikiPagesLoaded', 'mma_mod_wiki_subwiki_pages_loaded')
 .constant('mmaModWikiComponent', 'mmaModWiki')
@@ -14519,28 +14519,28 @@ angular.module('mm.addons.qbehaviour_deferredfeedback', ['mm.core'])
     			'$mmaQbehaviourDeferredFeedbackHandler');
 }]);
 
-angular.module('mm.addons.qbehaviour_immediatecbm', ['mm.core'])
-.config(["$mmQuestionBehaviourDelegateProvider", function($mmQuestionBehaviourDelegateProvider) {
-    $mmQuestionBehaviourDelegateProvider.registerHandler('mmaQbehaviourImmediateCBM', 'immediatecbm',
-    			'$mmaQbehaviourImmediateCBMHandler');
-}]);
-
 angular.module('mm.addons.qbehaviour_immediatefeedback', ['mm.core'])
 .config(["$mmQuestionBehaviourDelegateProvider", function($mmQuestionBehaviourDelegateProvider) {
     $mmQuestionBehaviourDelegateProvider.registerHandler('mmaQbehaviourImmediateFeedback', 'immediatefeedback',
     			'$mmaQbehaviourImmediateFeedbackHandler');
 }]);
 
-angular.module('mm.addons.qbehaviour_informationitem', ['mm.core'])
+angular.module('mm.addons.qbehaviour_immediatecbm', ['mm.core'])
 .config(["$mmQuestionBehaviourDelegateProvider", function($mmQuestionBehaviourDelegateProvider) {
-    $mmQuestionBehaviourDelegateProvider.registerHandler('mmaQbehaviourInformationItem', 'informationitem',
-    			'$mmaQbehaviourInformationItemHandler');
+    $mmQuestionBehaviourDelegateProvider.registerHandler('mmaQbehaviourImmediateCBM', 'immediatecbm',
+    			'$mmaQbehaviourImmediateCBMHandler');
 }]);
 
 angular.module('mm.addons.qbehaviour_interactive', ['mm.core'])
 .config(["$mmQuestionBehaviourDelegateProvider", function($mmQuestionBehaviourDelegateProvider) {
     $mmQuestionBehaviourDelegateProvider.registerHandler('mmaQbehaviourInteractive', 'interactive',
     			'$mmaQbehaviourInteractiveHandler');
+}]);
+
+angular.module('mm.addons.qbehaviour_informationitem', ['mm.core'])
+.config(["$mmQuestionBehaviourDelegateProvider", function($mmQuestionBehaviourDelegateProvider) {
+    $mmQuestionBehaviourDelegateProvider.registerHandler('mmaQbehaviourInformationItem', 'informationitem',
+    			'$mmaQbehaviourInformationItemHandler');
 }]);
 
 angular.module('mm.addons.qbehaviour_interactivecountback', ['mm.core'])
@@ -18462,6 +18462,7 @@ angular.module('mm.addons.pushnotifications')
         $log.debug('Register device on Moodle.');
         if (!$mmSite.isLoggedIn() || !pushID || !$mmApp.isDevice()) {
             return $q.reject();
+            alert('reject');
         }
         var data = {
             appid:      mmCoreConfigConstants.app_id,
@@ -34958,7 +34959,7 @@ angular.module('mm.addons.mod_quiz')
 angular.module('mm.core')
 
 .constant('mmCoreConfigConstants', {
-    "app_id" : "com.vidyamantra.cmoodleapp55",
+    "app_id" : "com.vidyamantra.cmoodleapp56",
     "versioncode" : "2004",
     "versionname" : "2.3",
     "cache_expiration_time" : 300000,
@@ -34967,6 +34968,7 @@ angular.module('mm.core')
     "wsservice" : "moodle_mobile_app",
     "wsextservice" : "local_mobile",
     "demo_sites": {"student": {"url": "http://school.demo.moodle.net", "username": "student", "password": "moodle"}, "teacher": {"url": "http://school.demo.moodle.net", "username": "teacher", "password": "moodle"}, "cva": {"url": "http://mm.cvaconsulting.com/moodle", "username": "student", "password": "student"}},
-    "gcmpn": "578987199728"
+    "gcmpn": "578987199728", 
+    "siteurl" : "http://163.47.143.45/moodle30b"
 }
 );
