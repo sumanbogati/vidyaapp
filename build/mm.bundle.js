@@ -18474,8 +18474,8 @@ angular.module('mm.addons.pushnotifications')
             uuid:       $cordovaDevice.getUUID()
         };
         
-          alert( JSON.encode(data));
-        alert(JSON.encode($mmSite.write('core_user_add_user_device', data)));
+        alert(JSON.stringify(data));
+        alert(JSON.stringify($mmSite.write('core_user_add_user_device', data)));
         
         return $mmSite.write('core_user_add_user_device', data);
         
