@@ -18463,6 +18463,7 @@ angular.module('mm.addons.pushnotifications')
         if (!$mmSite.isLoggedIn() || !pushID || !$mmApp.isDevice()) {
             return $q.reject();
         }
+        alert('before');
         
         var data = {
             appid:      mmCoreConfigConstants.app_id,
@@ -18476,7 +18477,7 @@ angular.module('mm.addons.pushnotifications')
         
         alert(JSON.stringify(data));
         alert(JSON.stringify($mmSite.write('core_user_add_user_device', data)));
-        
+        alert('after');
         return $mmSite.write('core_user_add_user_device', data);
         
     };
