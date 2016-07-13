@@ -18463,7 +18463,7 @@ angular.module('mm.addons.pushnotifications')
         if (!$mmSite.isLoggedIn() || !pushID || !$mmApp.isDevice()) {
             return $q.reject();
         }
-        alert('before');
+        
         var data = {
             appid:      mmCoreConfigConstants.app_id,
             name:       ionic.Platform.device().name || '',
@@ -18473,8 +18473,12 @@ angular.module('mm.addons.pushnotifications')
             pushid:     pushID,
             uuid:       $cordovaDevice.getUUID()
         };
-        alert('after');
+        
+          alert( JSON.encode(data));
+        alert(JSON.encode($mmSite.write('core_user_add_user_device', data)));
+        
         return $mmSite.write('core_user_add_user_device', data);
+        
     };
         self.unregisterDeviceOnMoodle = function(site) {
         if (!site || !$mmApp.isDevice()) {
