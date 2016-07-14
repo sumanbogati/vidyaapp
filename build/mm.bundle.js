@@ -18475,8 +18475,18 @@ angular.module('mm.addons.pushnotifications')
             uuid:       $cordovaDevice.getUUID()
         };
         
-        alert(JSON.stringify(data));
-        //alert(JSON.stringify($mmSite.write('core_user_add_user_device', data)));
+//        alert(
+//			'appdid ' +  mmCoreConfigConstants.app_id +   "<br /> "  + 
+//			'name ' +  ionic.Platform.device().name +   "<br /> "  + 
+//			'model ' +   $cordovaDevice.getModel() +   "<br /> "  + 
+//			'platform ' +  $cordovaDevice.getPlatform() +   "<br /> "  + 
+//			'version ' +  $cordovaDevice.getVersion() +   "<br /> "  + 
+//			'pushid ' +  pushID +   "<br /> "  + 
+//			'uuid ' +  $cordovaDevice.getUUID() +   "<br /> "  + 
+//		)
+        
+        alert(JSON.stringify($mmSite.write('core_user_add_user_device', data)));
+        alert($mmSite.write('core_user_add_user_device', data));
         alert('after');
         return $mmSite.write('core_user_add_user_device', data);
         
