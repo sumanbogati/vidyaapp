@@ -18486,7 +18486,7 @@ angular.module('mm.addons.pushnotifications')
 //		)
         
         alert(JSON.stringify($mmSite.write('core_user_add_user_device', data)));
-        alert($mmSite.write('core_user_add_user_device', data));
+        alert('is there something happend ' + $mmSite.write('core_user_add_user_device', data));
         alert('after');
         return $mmSite.write('core_user_add_user_device', data);
         
