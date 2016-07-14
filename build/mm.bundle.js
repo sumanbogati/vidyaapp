@@ -18463,8 +18463,6 @@ angular.module('mm.addons.pushnotifications')
         if (!$mmSite.isLoggedIn() || !pushID || !$mmApp.isDevice()) {
             return $q.reject();
         }
-        alert('before');
-        
         var data = {
             appid:      mmCoreConfigConstants.app_id,
             name:       ionic.Platform.device().name || '',
@@ -18474,22 +18472,7 @@ angular.module('mm.addons.pushnotifications')
             pushid:     pushID,
             uuid:       $cordovaDevice.getUUID()
         };
-        
-//        alert(
-//			'appdid ' +  mmCoreConfigConstants.app_id +   "<br /> "  + 
-//			'name ' +  ionic.Platform.device().name +   "<br /> "  + 
-//			'model ' +   $cordovaDevice.getModel() +   "<br /> "  + 
-//			'platform ' +  $cordovaDevice.getPlatform() +   "<br /> "  + 
-//			'version ' +  $cordovaDevice.getVersion() +   "<br /> "  + 
-//			'pushid ' +  pushID +   "<br /> "  + 
-//			'uuid ' +  $cordovaDevice.getUUID() +   "<br /> "  + 
-//		)
-        
-        alert(JSON.stringify($mmSite.write('core_user_add_user_device', data)));
-        alert('is there something happend ' + $mmSite.write('core_user_add_user_device', data));
-        alert('after');
         return $mmSite.write('core_user_add_user_device', data);
-        
     };
         self.unregisterDeviceOnMoodle = function(site) {
         if (!site || !$mmApp.isDevice()) {
@@ -34986,6 +34969,6 @@ angular.module('mm.core')
     "demo_sites": {"student": {"url": "http://school.demo.moodle.net", "username": "student", "password": "moodle"}, "teacher": {"url": "http://school.demo.moodle.net", "username": "teacher", "password": "moodle"}, "cva": {"url": "http://mm.cvaconsulting.com/moodle", "username": "student", "password": "student"}},
     "gcmpn": "578987199728",
     "customurlscheme": "moodlemobile",
-    "siteurl" : "http://lms.vidyamantra.com"
+    "siteurl" : "https://lms.vidyamantra.com"
 }
 );
