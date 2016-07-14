@@ -34969,6 +34969,6 @@ angular.module('mm.core')
     "demo_sites": {"student": {"url": "http://school.demo.moodle.net", "username": "student", "password": "moodle"}, "teacher": {"url": "http://school.demo.moodle.net", "username": "teacher", "password": "moodle"}, "cva": {"url": "http://mm.cvaconsulting.com/moodle", "username": "student", "password": "student"}},
     "gcmpn": "578987199728",
     "customurlscheme": "moodlemobile",
-    "siteurl" : "http://lms.vidyamantra.com"
+    "siteurl" : "https://lms.vidyamantra.com"
 }
 );
