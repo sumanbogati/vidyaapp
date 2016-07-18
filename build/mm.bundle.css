@@ -10430,3 +10430,13 @@ a.wiki_edit_section {
 .button.activated {
   box-shadow: none;
   color: #fff; }
+
+.bar-side-menu {
+  background-color: #236dca; }
+
+.bar-content {
+  background-color: #236dca; }
+
+.button.button-positive {
+  border-color: #236dca;
+  background-color: #236dca; }
