@@ -404,6 +404,7 @@ p.mm-warning {
   position: relative;
   top: initial;
   right: initial;
+  white-space: normal;
 }
 
 // Timer.
@@ -475,6 +476,23 @@ mm-timer {
   }
 }
 
+.item-title {
+  border: 0;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding: 5px;
+
+  input {
+    font-size: 20px;
+    line-height: 22px;
+  }
+}
+
+.item-noborder {
+  border: 0;
+  padding: 0;
+}
+
 /**
  * This CSS uses adjacent selectors instead of general sibling (~) selectors
  * for ion radio that are broken in iOS 9 UIWebView.
@@ -490,3 +508,8 @@ mm-timer {
     /* show the checkmark icon when its checked */
     visibility: visible;
   }
+
+/** Hide PTR when slowly released */
+.scroll-refresher .ionic-refresher-content.ionic-refresher-with-text {
+  bottom: 20px;
+}
